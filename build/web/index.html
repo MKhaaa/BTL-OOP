@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
 -->
-<html>
+<!-- <html>
     <head>
 	<title>TODO supply a title</title>
 	<meta charset="UTF-8">
@@ -12,4 +12,297 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <body>
 	<div>TODO write content</div>
     </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo</title>
+
+    <style>
+        /* ===== Reset ===== */
+        :root {
+            --bg: #eeeeee;
+            --text: #1e1e1e;
+            --panel: #ffffff;
+            --border: #e1e1e1;
+            --headerTop: #4a4a4a;
+            --headerBottom: #2c2c2c;
+            --chip: #f7f7f7;
+            --shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+            --red: #c70000;
+            --headerH: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            color: var(--text);
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            height: var(--headerH);
+            display: flex;
+            align-items: center;
+            background: linear-gradient(var(--headerTop), var(--headerBottom));
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-container {
+            width: 100%;
+            padding: 0 10px;
+            /* có thể giảm xuống 10px nếu muốn sát hơn nữa */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-left,
+        .menu-right {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .navlink {
+            color: #fff;
+            text-decoration: none;
+            font: 700 24px "Times New Roman", serif;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, .4);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: .45rem .9rem;
+            border: 1px solid rgba(255, 255, 255, .35);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ===== LAYOUT CHÍNH ===== */
+        .layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 20px;
+
+            /* Căn layout sang trái */
+            width: 100%;
+            max-width: none;
+            margin-left: 0;
+            margin-right: auto;
+            padding-left: 20px;
+            /* nhẹ để không dính mép */
+            margin-top: calc(var(--headerH) + 20px);
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            position: sticky;
+            top: 70px;
+            align-self: start;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            font-family: "Times New Roman", serif;
+            margin-bottom: 16px;
+        }
+
+        .brand {
+            display: block;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .brand:hover {
+            background: #f3f3f3;
+        }
+
+        /* ===== SORT BAR ===== */
+        .sortbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .sortbar .label {
+            font-weight: 700;
+            color: #333;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            background: var(--chip);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: .45rem .8rem;
+            font-weight: 700;
+            color: #222;
+            text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        /* ===== PRODUCT GRID ===== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 12px;
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .card h2 {
+            font-family: "Times New Roman", serif;
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .price-old {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .price-old .old-value {
+            text-decoration: line-through;
+            /* chỉ gạch phần giá */
+        }
+
+        .price-old .discount {
+            color: var(--red);
+            font-weight: 700;
+            margin-left: 4px;
+            text-decoration: none;
+        }
+
+        .price-new {
+            color: var(--red);
+            font-weight: 800;
+            font-size: 20px;
+            margin: 6px 0;
+        }
+
+        .pill.light {
+            background: #f1ecea;
+            border: 1px solid #e3d9d7;
+            color: #3a302f;
+            justify-content: center;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 14px;
+            width: auto;
+            margin: 6px auto;
+            transition: 0.2s;
+            display: inline-flex;
+        }
+
+        .pill.light:hover {
+            background: #e9e3e0;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+
+<body>
+    <!--  HEADER  -->
+    <header>
+        <div class="header-container">
+            <nav class="menu-left">
+                <a href="#" class="navlink">Home</a>
+                <a href="#" class="navlink">About</a>
+                <a href="#" class="navlink">Services</a>
+                <a href="#" class="navlink">Contact</a>
+            </nav>
+            <nav class="menu-right">
+                <a href="#" class="pill">🛒 Giỏ hàng</a>
+                <a href="#" class="pill">Đăng xuất</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- LAYOUT CHÍNH  -->
+    <div class="layout">
+        <!-- SIDEBAR: nhà sản xuất -->
+        <nav class="sidebar">
+            <h2>Nhà sản xuất</h2>
+            <a href="#" class="brand">iPhone</a>
+            <a href="#" class="brand">SAMSUNG</a>
+            <a href="#" class="brand">OPPO</a>
+            <a href="#" class="brand">XIAOMI</a>
+        </nav>
+
+        <!-- MAIN: sản phẩm + sortbar -->
+        <main>
+            <!-- SORTBAR nằm phía trên sản phẩm -->
+            <div class="sortbar">
+                <span class="label">Sắp xếp theo:</span>
+                <a class="chip">% Khuyến mãi HOT</a>
+                <a class="chip">↧ Giá Thấp - Cao</a>
+                <a class="chip">↥ Giá Cao - Thấp</a>
+            </div>
+
+            <!-- Lưới sản phẩm -->
+            <section class="product-grid">
+                <article class="card">
+                    <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-pro-max_5.png"
+                        alt="iPhone 15 Pro Max">
+                    <h2>iPhone 15 Pro Max 256GB</h2>
+                    <p class="price-old">
+                        <span class="old-value">35.000.000đ</span>
+                        <span class="discount">-20%</span>
+                    </p>
+                    <p class="price-new">27.700.000đ</p>
+                    <a href="#" class="pill light">Chi tiết sản phẩm</a>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+
 </html>
