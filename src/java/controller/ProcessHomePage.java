@@ -4,14 +4,21 @@
  */
 package controller;
 
+import dao.BrandDAO;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Brand;
+import model.Product;
+import model.User;
 
 /**
  *
@@ -32,6 +39,33 @@ public class ProcessHomePage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 	response.setContentType("text/html;charset=UTF-8");
+	
+//	HttpSession session = request.getSession();
+//	User user = new User("Kha", "Nguyễn");
+//	session.setAttribute("user", user);
+	String sortField = request.getParameter("sortField");
+	String sortOrder = request.getParameter("sortOrder");
+	String brandId = request.getParameter("brand");
+	String curPage = request.getParameter("page");
+    
+	int pageSize = 8;
+	int page;
+	if(curPage == null){
+	    page = 1;
+	}
+	else{
+	    page = Integer.parseInt(curPage);
+	}
+	ArrayList<Product> products = ProductDAO.getProductList(sortField, sortOrder, brandId, page, pageSize);
+	ArrayList<Brand> brands = BrandDAO.getBrandList();
+	
+	int countProducts = ProductDAO.countProducts(brandId);
+	int totalPages = (int)Math.ceil(1.0 * countProducts / pageSize);
+	
+	request.setAttribute("products", products);
+	request.setAttribute("brands", brands);
+	request.setAttribute("page", page);
+	request.setAttribute("totalPages", totalPages);
 	
 	RequestDispatcher dis = request.getRequestDispatcher("home.jsp");
 	dis.forward(request, response);
