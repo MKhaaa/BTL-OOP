@@ -74,5 +74,4 @@ public class Product {
 	this.sale_rate = sale_rate;
     }
     
-    
 }

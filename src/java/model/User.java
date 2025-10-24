@@ -1,68 +1,59 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
-/**
- *
- * @author Admin
- */
 public class User {
     private int id;
-    private String firstName, lastName, email, gender;
-
-    public User(String firstName, String lastName) {
-	this.firstName = firstName;
-	this.lastName = lastName;
-    }
-
-    public User(int id, String firstName, String lastName, String email, String gender) {
-	this.id = id;
-	this.firstName = firstName;
-	this.lastName = lastName;
-	this.email = email;
-	this.gender = gender;
-    }
+    private String username;
+    private String password;
+    private String email;
+    private String firstName;
+    private String lastName;
 
     public int getId() {
-	return id;
+        return id;
     }
 
     public void setId(int id) {
-	this.id = id;
+        this.id = id;
     }
 
-    public String getFirstName() {
-	return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-	this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getLastName() {
-	return lastName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLastName(String lastName) {
-	this.lastName = lastName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
-	return email;
+        return email;
     }
 
     public void setEmail(String email) {
-	this.email = email;
+        this.email = email;
     }
 
-    public String getGender() {
-	return gender;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setGender(String gender) {
-	this.gender = gender;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
-    
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }
