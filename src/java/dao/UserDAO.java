@@ -101,13 +101,16 @@ public class UserDAO {
 
     // Thêm user mới (password nên hash trước khi truyền vào user)
     public void addUser(User user) {
-        String sql = "INSERT INTO users(username, password, email) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO users(username, password, email, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword()); // password đã hash
             ps.setString(3, user.getEmail());
+            ps.setString(4, user.getFirstName());
+            ps.setString(5, user.getLastName());
+
             ps.executeUpdate();
 
         } catch (Exception e) {

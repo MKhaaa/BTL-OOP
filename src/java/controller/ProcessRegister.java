@@ -31,6 +31,8 @@ public class ProcessRegister extends HttpServlet {
         String username = request.getParameter("username");
         String rawPassword = request.getParameter("password");
         String email = request.getParameter("email");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
 
         // 2. Hash mật khẩu bằng BCrypt
         String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
@@ -51,6 +53,8 @@ public class ProcessRegister extends HttpServlet {
             user.setUsername(username);
             user.setPassword(hashedPassword);
             user.setEmail(email);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
 
             userDAO.addUser(user);
             request.setAttribute("message", "Registration successful! You can login now.");
