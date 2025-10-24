@@ -8,8 +8,8 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailDAO {
 
-    private final String fromEmail = "Send_email"; // Email gửi đi link reset mật khẩu
-    private final String appPassword = "Email_app_password"; // Mật khẩu ứng dụng của Email
+    private final String fromEmail = "manhkha03020100@gmail.com"; // Email gửi đi link reset mật khẩu
+    private final String appPassword = "mkhmqnnzzxggiwxg"; // Mật khẩu ứng dụng của Email
 
     // toEmail: Email người nhận
     // resetLink: URL đặt lại mật khẩu có token

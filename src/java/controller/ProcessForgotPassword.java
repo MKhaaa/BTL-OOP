@@ -50,7 +50,7 @@ public class ProcessForgotPassword extends HttpServlet {
         userDAO.createResetRequest(user.getId(), token, expiry);
 
         // 5. Tạo link reset có gắn token
-        String resetLink = "http://localhost:8080/web/reset-password?token=" + token;
+        String resetLink = "http://localhost:8081/BTL-OOP/reset-password?token=" + token;
 
         // 6. Gửi email chứa link reset password
         EmailDAO emailDAO = new EmailDAO();
