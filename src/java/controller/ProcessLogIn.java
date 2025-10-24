@@ -42,7 +42,7 @@ public class ProcessLogIn extends HttpServlet {
             request.getSession().setAttribute("acc", user);
 
             // Điều hướng sang trang chính sau khi login
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("./home");
         } else {
             // Sai username hoặc password
             request.setAttribute("error", "Wrong username hoặc password!");
