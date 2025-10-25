@@ -64,16 +64,17 @@
 
 <div class="navbar">
     <div class="navbar-left">
-        <a href="home.jsp">Home</a>
-        <a href="about.jsp">About</a>
-        <a href="services.jsp">Services</a>
-        <a href="contact.jsp">Contact</a>
+        <a href="home">Home</a>
+        <a href="about">About</a>
+        <a href="services">Services</a>
+        <a href="contact">Contact</a>
     </div>
 
     <div class="navbar-right">
         <a href="cart.jsp" class="cart-btn">🛒 Giỏ hàng</a>
+        <c:set var="user" value="${sessionScope.user}"/>
         <span class="user-info">Xin chào: 
-            <%= (session.getAttribute("username") != null) ? session.getAttribute("username") : "Khách" %>
+            <strong>${empty user ? 'Khách' : String.format("%s %s", user.firstName, user.lastName)}</strong>
         </span>
         <a href="logout" class="logout-btn">Đăng xuất</a>
     </div>
