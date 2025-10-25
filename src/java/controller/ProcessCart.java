@@ -23,7 +23,15 @@ public class ProcessCart extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = req.getSession();
-        int userId = 1;
+        User user = (User) session.getAttribute("user");
+        int userId = 0;
+        if(user != null){ 
+            userId = user.getId();
+        }
+        else{
+            req.setAttribute("not found", "Vui lòng đăng nhập");
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
+        }
         Cart cart = (Cart) session.getAttribute("cart");
         if(cart == null){ 
             cart = cartDAO.getCartByUserId(userId);
@@ -38,13 +46,14 @@ public class ProcessCart extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = req.getSession();
-        int userId = 1;
+        User user = (User) session.getAttribute("user");
+        int userId = user.getId();   
         String action = req.getParameter("action");
         Cart cart = (Cart) session.getAttribute("cart");
         if (cart == null) {
             cart = cartDAO.getCartByUserId(userId);
             session.setAttribute("cart", cart);
-        }
+        }  
         
         try{
             int productId = Integer.parseInt(req.getParameter("product_id"));
@@ -67,7 +76,6 @@ public class ProcessCart extends HttpServlet {
                 cartDAO.updateQuantity(userId, productId, cart.getItem(productId).getQuantity());
             }
             session.setAttribute("cart", cart); 
-            session.setMaxInactiveInterval(10);
             resp.sendRedirect("cart");
         }
         catch(Exception e){
