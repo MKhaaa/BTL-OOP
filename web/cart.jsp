@@ -9,11 +9,18 @@
     <meta charset="UTF-8">
     <title>Giỏ hàng của bạn</title>
     <style>
+        .link-no-style {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
         body {
             font-family: Arial, sans-serif;
             background: #f6f6f6;
             margin: 0;
             padding: 20px;
+            padding-bottom: 120px; /* thêm khoảng trống cho total-fixed */
+            overflow-y: scroll; /* luôn hiển thị scrollbar dọc, dù không cần */
         }
 
         h1 {
@@ -27,13 +34,13 @@
             border-collapse: collapse;
             background: white;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            table-layout: fixed; /* ⚡ giữ độ rộng cột cố định */
+            table-layout: fixed;
         }
 
         th, td {
             padding: 12px 15px;
             border-bottom: 1px solid #ddd;
-            vertical-align: middle; /* 👈 căn giữa theo chiều dọc */
+            vertical-align: middle;
             word-wrap: break-word;
         }
 
@@ -43,12 +50,11 @@
             text-transform: uppercase;
         }
 
-        /* ⚙️ Cố định độ rộng từng cột */
-        th:nth-child(1), td:nth-child(1) { width: 35%; text-align: center; }   /* Sản phẩm */
-        th:nth-child(2), td:nth-child(2) { width: 15%; text-align: center; } /* Giá */
-        th:nth-child(3), td:nth-child(3) { width: 20%; text-align: center; } /* Số lượng */
-        th:nth-child(4), td:nth-child(4) { width: 15%; text-align: center; } /* Thành tiền */
-        th:nth-child(5), td:nth-child(5) { width: 15%; text-align: center; } /* Hành động */
+        th:nth-child(1), td:nth-child(1) { width: 35%; text-align: center; }
+        th:nth-child(2), td:nth-child(2) { width: 15%; text-align: center; }
+        th:nth-child(3), td:nth-child(3) { width: 20%; text-align: center; }
+        th:nth-child(4), td:nth-child(4) { width: 15%; text-align: center; }
+        th:nth-child(5), td:nth-child(5) { width: 15%; text-align: center; }
 
         td img {
             width: 80px;
@@ -87,7 +93,6 @@
             font-size: 15px;
         }
 
-        /* Ẩn nút tăng/giảm mặc định trong input number */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
@@ -113,12 +118,19 @@
             opacity: 0.9;
         }
 
-        .total {
-            text-align: right;
-            width: 90%;
-            margin: 10px auto;
+        /* Tổng tiền cố định dưới màn hình */
+        .total-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            padding: 20px 30px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
             font-weight: bold;
             font-size: 18px;
+            text-align: right;
+            z-index: 999;
         }
 
         .price, .total-price {
@@ -145,22 +157,21 @@
 
             <c:forEach var="item" items="${cart.items}">
                 <tr>
-                    <!-- Cột Sản phẩm -->
                     <td>
                         <div>
-                            <strong>${item.name}</strong><br>
+                            <strong>
+                                <a href="product-detail?id=${item.productId}" class="link-no-style">${item.name}</a>
+                            </strong><br>
                             <img src="${item.img}" alt="${item.name}">
                         </div>
                     </td>
 
-                    <!-- Cột Giá -->
                     <td>
                         <div class="price">
                             <fmt:formatNumber value="${item.price}" type="number" groupingUsed="true" /> VNĐ
                         </div>
                     </td>
 
-                    <!-- Cột Số lượng -->
                     <td>
                         <div class="quantity-controls">
                             <!-- Nút giảm -->
@@ -187,14 +198,12 @@
                         </div>
                     </td>
 
-                    <!-- Cột Thành tiền -->
                     <td>
                         <div class="total-price">
                             <fmt:formatNumber value="${item.totalPrice}" type="number" groupingUsed="true" /> VNĐ
                         </div>
                     </td>
 
-                    <!-- Cột Hành động -->
                     <td>
                         <form action="cart" method="post" style="display:inline;">
                             <input type="hidden" name="action" value="delete">
@@ -206,7 +215,8 @@
             </c:forEach>
         </table>
 
-        <div class="total">
+        <!-- Tổng tiền cố định dưới màn hình -->
+        <div class="total-fixed">
             Tổng cộng: 
             <span style="color:#e91e63;">
                 <fmt:formatNumber value="${cart.totalPrice}" type="number" groupingUsed="true" /> VNĐ
