@@ -20,7 +20,7 @@ public class CartDAO {
     public Cart getCartByUserId(int userId){
         Cart cart = new Cart(userId);
         try(Connection conn = getConnection()){ 
-            String sql = "SELECT c.user_id, c.quantity, c.product_id, p.name, p.promo_price, pi.image_url, pi.is_main "
+            String sql = "SELECT c.quantity, c.product_id, p.name, p.promo_price, pi.image_url "
                     + "FROM cart c " + 
                     "JOIN products p ON c.product_id = p.id " +
                     "JOIN product_images pi ON c.product_id = pi.product_id " +
