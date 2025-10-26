@@ -27,18 +27,19 @@ public class ProcessCart extends HttpServlet {
         int userId = 0;
         if(user != null){ 
             userId = user.getId();
+	    Cart cart = (Cart) session.getAttribute("cart");
+	    if(cart == null){ 
+		System.out.println("null: " + userId);
+		cart = cartDAO.getCartByUserId(userId);
+		session.setAttribute("cart", cart);
+	    }
+	    req.setAttribute("cart", cart);
+	    req.getRequestDispatcher("cart.jsp").forward(req, resp);
         }
         else{
             req.setAttribute("not found", "Vui lòng đăng nhập");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         }
-        Cart cart = (Cart) session.getAttribute("cart");
-        if(cart == null){ 
-            cart = cartDAO.getCartByUserId(userId);
-            session.setAttribute("cart", cart);
-        }
-        req.setAttribute("cart", cart);
-        req.getRequestDispatcher("cart.jsp").forward(req, resp);
     }
 
     @Override

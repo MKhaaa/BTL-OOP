@@ -27,6 +27,7 @@ public class CartDAO {
                     "WHERE pi.is_main = 1 AND c.user_id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, userId);
+//	    System.out.println(ps.toString());
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ 
                 int productId = rs.getInt("product_id");
