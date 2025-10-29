@@ -76,4 +76,43 @@ public class CartDAO {
             e.printStackTrace();
         }
     }
+    // Thêm sản phẩm mới vào giỏ hàng (số lượng mặc định hoặc tuỳ chọn)
+    public void insertItem(int userId, int productId, int quantity) {
+        try (Connection conn = getConnection()) {
+            String sql = "INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setInt(2, productId);
+            ps.setInt(3, quantity);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
+    public CartItem getCartItem(int userId, int productId) {
+        try (Connection conn = getConnection()) {
+            String sql = "SELECT c.quantity, p.name, p.promo_price, pi.image_url "
+                    + "FROM cart c "
+                    + "JOIN products p ON c.product_id = p.id "
+                    + "JOIN product_images pi ON c.product_id = pi.product_id "
+                    + "WHERE pi.is_main = 1 AND c.user_id = ? AND c.product_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setInt(2, productId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new CartItem(
+                        productId,
+                        rs.getString("name"),
+                        rs.getString("image_url"),
+                        rs.getDouble("promo_price"),
+                        rs.getInt("quantity")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
