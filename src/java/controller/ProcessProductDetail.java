@@ -1,87 +1,66 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
+import dao.ProductDAO;
+import dao.CommentDAO;        // <-- thêm
+import model.Product;
+import model.Comment;        // <-- thêm
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;        // <-- thêm
 
-/**
- *
- * @author Admin
- */
 @WebServlet(name = "ProcessProductDetail", urlPatterns = {"/product-detail"})
 public class ProcessProductDetail extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-	    throws ServletException, IOException {
-	response.setContentType("text/html;charset=UTF-8");
-	try ( PrintWriter out = response.getWriter()) {
-	    /* TODO output your page here. You may use following sample code. */
-	    out.println("<!DOCTYPE html>");
-	    out.println("<html>");
-	    out.println("<head>");
-	    out.println("<title>Servlet ProcessProductDetail</title>");	    
-	    out.println("</head>");
-	    out.println("<body>");
-	    out.println("<h1>Servlet ProcessProductDetail at " + request.getContextPath() + "</h1>");
-	    out.println("</body>");
-	    out.println("</html>");
-	}
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	    throws ServletException, IOException {
-	processRequest(request, response);
+            throws ServletException, IOException {
+
+        String idParam = request.getParameter("id");
+        if (idParam == null || idParam.isEmpty()) {
+            response.sendRedirect("index.jsp");
+            return;
+        }
+
+        int productId;
+        try {
+            productId = Integer.parseInt(idParam);
+        } catch (NumberFormatException e) {
+            response.sendRedirect("index.jsp");
+            return;
+        }
+
+        Product product = ProductDAO.getProductById(productId);
+        if (product == null) {
+            response.sendRedirect("index.jsp");
+            return;
+        }
+
+        // 1) Đưa product vào request
+        request.setAttribute("product", product);
+
+        // 2) LẤY BÌNH LUẬN & ĐƯA VÀO REQUEST (thêm đoạn này)
+        try {
+            List<Comment> comments = new CommentDAO().findByProductId(productId);
+            request.setAttribute("comments", comments);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
+
+        // 3) Forward tới JSP hiển thị chi tiết
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/product-detail.jsp");
+        dispatcher.forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	    throws ServletException, IOException {
-	processRequest(request, response);
+            throws ServletException, IOException {
+        doGet(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-	return "Short description";
-    }// </editor-fold>
-
+        return "Servlet xử lý chi tiết sản phẩm";
+    }
 }
