@@ -47,7 +47,7 @@ public class ProcessHomePage extends HttpServlet {
 	String brandId = request.getParameter("brand");
 	String curPage = request.getParameter("page");
     
-	int pageSize = 8;
+	int pageSize = 10;
 	int page;
 	if(curPage == null){
 	    page = 1;
