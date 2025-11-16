@@ -32,7 +32,11 @@ public class ProcessAddToCart extends HttpServlet {
 
         // 1️⃣ Nếu chưa đăng nhập → về login
         if (currentUser == null) {
-            response.sendRedirect("login.jsp");
+//            response.sendRedirect("login.jsp");
+
+	    //Đăng nhập thành công thì quay trở lại trang Product Detail vừa yêu cầu đăng nhập
+	    int productId = Integer.parseInt(request.getParameter("product_id"));
+	    response.sendRedirect("./login?returnUrl=./product-detail?id=" + productId);
             return;
         }
 

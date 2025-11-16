@@ -1,11 +1,14 @@
 package controller;
 
+import dao.CommentDAO;
 import dao.ProductDAO;
 import model.Product;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
+import model.Comment;
 
 @WebServlet(name = "ProcessProductDetail", urlPatterns = {"/product-detail"})
 public class ProcessProductDetail extends HttpServlet {
@@ -36,6 +39,15 @@ public class ProcessProductDetail extends HttpServlet {
 
         // Đưa product vào request
         request.setAttribute("product", product);
+	
+	// ==== LẤY DANH SÁCH BÌNH LUẬN (thêm mới) ====
+        try {
+            List<Comment> comments = new CommentDAO().findByProductId(productId);
+            request.setAttribute("comments", comments);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
+        // ============================================
 
         // Forward tới JSP hiển thị chi tiết
         RequestDispatcher dispatcher = request.getRequestDispatcher("/product-detail.jsp");

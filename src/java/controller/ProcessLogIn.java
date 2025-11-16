@@ -16,11 +16,22 @@ import model.User;
 @WebServlet(name = "ProcessLogIn", urlPatterns = { "/login" })
 public class ProcessLogIn extends HttpServlet {
 
+    //Thêm returnUrl để trở về trang trước đó yêu cầu đăng nhập
+    String returnUrl = "";
+    
     // Khi người dùng truy cập /login lần đầu -> hiển thị form đăng nhập
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Điều hướng sang trang login.jsp
+	
+	returnUrl = (String)request.getParameter("returnUrl");
+	
+	//Xử lí khi Reset Password sẽ không có returnUrl ở Param
+	if(returnUrl == null){
+	    returnUrl = "./home";
+	}
+	
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
@@ -43,7 +54,11 @@ public class ProcessLogIn extends HttpServlet {
             request.getSession().setAttribute("user", user);
 
             // Điều hướng sang trang chính sau khi login
-            response.sendRedirect("./home");
+//            response.sendRedirect("./home");
+
+	    //Điều hướng sang trang ban đầu khi yêu cầu Login
+	    response.sendRedirect("" + returnUrl);
+		
         } else {
             // Sai username hoặc password
             request.setAttribute("error", "Wrong username hoặc password!");

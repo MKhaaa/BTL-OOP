@@ -38,7 +38,9 @@ public class ProcessCart extends HttpServlet {
         }
         else{
             req.setAttribute("not found", "Vui lòng đăng nhập");
-            req.getRequestDispatcher("login.jsp").forward(req, resp);
+//            req.getRequestDispatcher("login.jsp").forward(req, resp);
+	    //Đăng nhập thành công thì quay lại trang Cart
+	    req.getRequestDispatcher("./login?returnUrl=./cart").forward(req, resp);
         }
     }
 

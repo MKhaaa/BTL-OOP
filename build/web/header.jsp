@@ -31,6 +31,9 @@
 	font-weight: 500;
 	transition: color .2s;
     }
+    .navbar-left {
+	gap: 40px;
+    }
 
     /*      .navbar a:hover {
 	    color: #ffcc00;
@@ -59,10 +62,10 @@
 
 <div class="navbar">
     <div class="navbar-left">
-	<a href="./home">Home</a>
-	<a href="#">About</a>
-	<a href="#">Services</a>
-	<a href="#">Contact</a>
+	<a href="./home">Trang chủ</a>
+	<a href="#">Dịch vụ</a>
+	<a href="#">Giới thiệu</a>
+	<a href="#">Liên hệ</a>
     </div>
 
     <div class="navbar-right">

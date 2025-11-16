@@ -39,15 +39,14 @@ public class ProcessHomePage extends HttpServlet {
 	    throws ServletException, IOException {
 	response.setContentType("text/html;charset=UTF-8");
 	
-//	HttpSession session = request.getSession();
-//	User user = new User("Kha", "Nguyễn");
-//	session.setAttribute("user", user);
+
+//	String key = request.getParameter("key");
 	String sortField = request.getParameter("sortField");
 	String sortOrder = request.getParameter("sortOrder");
 	String brandId = request.getParameter("brand");
 	String curPage = request.getParameter("page");
-    
-	int pageSize = 10;
+//	System.out.println(key);
+	int pageSize = 8;
 	int page;
 	if(curPage == null){
 	    page = 1;

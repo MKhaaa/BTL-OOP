@@ -31,10 +31,10 @@
 		box-sizing: border-box;
 	    }
 
-	    html,
-	    body {
-		height: 100%;
-	    }
+	    /*	    html,
+			body {
+			    height: 100%;
+			}*/
 
 	    body {
 		margin: 0;
@@ -45,7 +45,7 @@
 	    }
 
 	    /* ===== Navbar ===== */
-	    
+
 
 	    /*  Layout  */
 	    .layout {
@@ -92,7 +92,7 @@
 	    .brand:hover {
 		background: #f3f3f3;
 	    }
-	    
+
 	    .sidebar .selected {
 		background-color: #333333;
 		color: #fff;
@@ -129,6 +129,30 @@
 		color: #3b82f6;
 		border: 3px solid #3b82f6;
 	    }
+
+	    /*Search*/
+/*	    .search {
+
+	    }
+	    .search input {
+		width: 400px;
+		padding: 8px 15px;
+		border-radius: 15px;
+		 outline: none; 
+		border: 1px solid #000;
+		font-size: 18px;
+	    }
+	    .search button {
+		padding: 10px 10px;
+		border-radius: 10px;
+		font-weight: 600;
+		border: none;
+		background-color: #3b82f6;
+		color: #fff;
+		font-size: 18px;
+		cursor: pointer;
+	    }*/
+
 
 	    /* Product grid */
 	    .product-grid {
@@ -204,7 +228,8 @@
 		background: #e9e3e0;
 		transform: translateY(-1px);
 	    }
-/*	    pagination*/
+
+	    /*	    pagination*/
 	    .pagination {
 		display: flex;
 		justify-content: center;
@@ -241,8 +266,6 @@
 
     <body>
 
-	<!-- Navbar -->
-	
 
 	<!-- Layout -->
 	<div class="layout">
@@ -265,7 +288,7 @@
 			    <a href="./home?${url}brand=${b.id}" class="brand">${b.name}</a>
 			</c:otherwise>
 		    </c:choose>
-		    
+
 		</c:forEach>
 	    </nav>
 
@@ -275,12 +298,38 @@
 		    <c:set var="sortField" value="${param.sortField}"/>
 		    <c:set var="sortOrder" value="${param.sortOrder}"/>
 		    <c:set var="brand" value="${empty param.brand ? '' : String.format('&brand=%s', param.brand)}"/>
-		    
+
 		    <span class="label">Sắp xếp theo:</span>
-		    <a href="./home?sortField=sale-rate${brand}" class="chip ${sortField eq "sale-rate" ? "selected" : ""}">% Khuyến mãi HOT</a>
-		    <a href="./home?sortField=price&sortOrder=asc${brand}" class="chip ${sortOrder eq "asc" ? "selected" : ""}">↧ Giá Thấp - Cao</a>
-		    <a href="./home?sortField=price&sortOrder=desc${brand}" class="chip ${sortOrder eq "desc" ? "selected" : ""}">↥ Giá Cao - Thấp</a>
+		    <c:choose>
+			<c:when test="${sortField eq 'sale-rate'}">
+			    <a href="./home?${brand}" class="chip selected">% Khuyến mãi HOT</a>
+			</c:when>
+			<c:otherwise>
+			    <a href="./home?sortField=sale-rate${brand}" class="chip">% Khuyến mãi HOT</a>
+			</c:otherwise>
+		    </c:choose>
+		    <c:choose>
+			<c:when test="${sortOrder eq 'asc'}">
+			    <a href="./home?${brand}" class="chip selected">↧ Giá Thấp - Cao</a>
+			</c:when>
+			<c:otherwise>
+			    <a href="./home?sortField=price&sortOrder=asc${brand}" class="chip">↧ Giá Thấp - Cao</a>
+			</c:otherwise>
+		    </c:choose>
+		    <c:choose>
+			<c:when test="${sortOrder eq 'desc'}">
+			    <a href="./home?${brand}" class="chip selected">↥ Giá Cao - Thấp</a>
+			</c:when>
+			<c:otherwise>
+			    <a href="./home?sortField=price&sortOrder=desc${brand}" class="chip">↥ Giá Cao - Thấp</a>
+			</c:otherwise>
+		    </c:choose>
 		</div>
+
+<!--		<form action="./home" class="search" method="post">
+		    <input class="name" type="text" placeholder="Tìm kiếm sản phẩm">
+		    <button>Tìm kiếm</button>
+		</form>-->
 
 		<section class="product-grid">
 		    <c:forEach var="p" items="${products}">

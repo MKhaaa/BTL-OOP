@@ -34,6 +34,9 @@ public class ProductDAO {
 	return cnn;
     }
     public static ArrayList<Product> getProductList(String sortField, String sortOrder, String brandId, int page, int pageSize){
+//	if(key == null){
+//	    key =  "";
+//	}
 	if(sortField != null && sortField.equals("sale-rate")){
 	    sortField = "sale_rate";
 	    sortOrder = "DESC";
@@ -57,16 +60,18 @@ public class ProductDAO {
 	
 	int offset = (page - 1) * pageSize;
 	try(Connection c = getConnection()){
-	    String sql = String.format("SELECT *, promo_price AS price, 1.0 * (original_price - promo_price) / original_price * 100 AS sale_rate "
+	    String sql = "SELECT *, promo_price AS price, 1.0 * (original_price - promo_price) / original_price * 100 AS sale_rate "
 		       + "FROM products p "
 		       + "JOIN product_images i "
 		       + "ON p.id = i.product_id "
 		       + "WHERE i.is_main = 1 AND %s "
 		       + "ORDER BY %s %s "
-		       + "LIMIT %d, %d", brandId, sortField, sortOrder, offset, pageSize);
+		       + "LIMIT %d, %d";
+	    sql = String.format(sql, brandId, sortField, sortOrder, offset, pageSize);
 	    PreparedStatement ps = c.prepareStatement(sql);
-	    ResultSet rs = ps.executeQuery();
+//	    ps.setString(1, "%" + key + "%");
 	    System.out.println(ps.toString());
+	    ResultSet rs = ps.executeQuery();
 	    
 	    ArrayList<Product> list = new ArrayList<>();
 	    while(rs.next()){
@@ -84,10 +89,13 @@ public class ProductDAO {
     }
     public static int countProducts(String brandId){
 	try(Connection c = getConnection()){
-	    String sql = "SELECT COUNT(*) AS cnt FROM products p ";
+	    String sql = "SELECT COUNT(*) AS cnt FROM products p WHERE 1 = 1 ";
 	    if(brandId != null){
-		sql += "WHERE p.brand_id = " + brandId;
+		sql += " AND p.brand_id = " + brandId;
 	    }
+//	    if(key != null){
+//		sql += " AND p.name LIKE '%" + key + "%'";
+//	    }
 	    PreparedStatement ps = c.prepareStatement(sql);
 	    ResultSet rs = ps.executeQuery();
 	    if(rs.next()){
