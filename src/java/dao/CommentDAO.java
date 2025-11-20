@@ -23,7 +23,7 @@ public class CommentDAO {
 
     public List<Comment> findByProductId(int productId) throws SQLException {
         List<Comment> list = new ArrayList<>();
-        try (Connection con = DBConnection.getConnection();     // <— dùng DBConnection
+        try (Connection con = DBConfig.getConnection();     
              PreparedStatement ps = con.prepareStatement(SELECT_BY_PRODUCT)) {
 
             ps.setInt(1, productId);
@@ -53,7 +53,7 @@ public class CommentDAO {
     }
 
     public void insert(Comment c) throws SQLException {
-        try (Connection con = DBConnection.getConnection();     // <— dùng DBConnection
+        try (Connection con = DBConfig.getConnection();     
              PreparedStatement ps = con.prepareStatement(INSERT_SQL)) {
 
             ps.setInt(1, c.getProductId());
@@ -72,7 +72,7 @@ public class CommentDAO {
 
     // chỉ chủ comment (hoặc admin) được xoá
     public int deleteByIdAndUser(int id, int userId) throws SQLException {
-        try (Connection con = DBConnection.getConnection();     // <— dùng DBConnection
+        try (Connection con = DBConfig.getConnection();     
              PreparedStatement ps = con.prepareStatement(DELETE_SQL)) {
             ps.setInt(1, id);
             ps.setInt(2, userId);

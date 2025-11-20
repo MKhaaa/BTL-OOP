@@ -17,20 +17,9 @@ import model.Brand;
  * @author Admin
  */
 public class BrandDAO {
-    public static Connection getConnection(){
-	Connection cnn = null;
-	try{
-	    Class.forName(DBConfig.driver);
-	    cnn = DriverManager.getConnection(DBConfig.url, DBConfig.user, DBConfig.password);
-	    System.out.println("Connect Successful");
-	}catch(Exception ex){
-	    ex.printStackTrace();
-	}
-	return cnn;
-    }
     
     public static ArrayList<Brand> getBrandList(){
-	try(Connection c = getConnection()){
+	try(Connection c = DBConfig.getConnection()){
 	    String sql = "SELECT * FROM brands";
 	    PreparedStatement ps = c.prepareStatement(sql);
 	    ResultSet rs = ps.executeQuery();

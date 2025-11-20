@@ -22,17 +22,6 @@ import model.ProductSpec;
  * @author Admin
  */
 public class ProductDAO {
-    public static Connection getConnection(){
-	Connection cnn = null;
-	try{
-	    Class.forName(DBConfig.driver);
-	    cnn = DriverManager.getConnection(DBConfig.url, DBConfig.user, DBConfig.password);
-	    System.out.println("Connect Successful");
-	}catch(Exception ex){
-	    ex.printStackTrace();
-	}
-	return cnn;
-    }
     public static ArrayList<Product> getProductList(String sortField, String sortOrder, String brandId, int page, int pageSize){
 //	if(key == null){
 //	    key =  "";
@@ -59,7 +48,7 @@ public class ProductDAO {
 	}
 	
 	int offset = (page - 1) * pageSize;
-	try(Connection c = getConnection()){
+	try(Connection c = DBConfig.getConnection()){
 	    String sql = "SELECT *, promo_price AS price, 1.0 * (original_price - promo_price) / original_price * 100 AS sale_rate "
 		       + "FROM products p "
 		       + "JOIN product_images i "
@@ -88,7 +77,7 @@ public class ProductDAO {
 	return null;
     }
     public static int countProducts(String brandId){
-	try(Connection c = getConnection()){
+	try(Connection c = DBConfig.getConnection()){
 	    String sql = "SELECT COUNT(*) AS cnt FROM products p WHERE 1 = 1 ";
 	    if(brandId != null){
 		sql += " AND p.brand_id = " + brandId;
@@ -113,7 +102,7 @@ public class ProductDAO {
                      "FROM products p " +
                      "JOIN product_images i ON p.id = i.product_id " +
                      "WHERE p.id = ?";
-        try(Connection c = getConnection()){
+        try(Connection c = DBConfig.getConnection()){
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -151,7 +140,7 @@ public class ProductDAO {
     public static List<ProductSpec> getSpecsByProductId(int productId) {
         List<ProductSpec> specs = new ArrayList<>();
         String sql = "SELECT spec_name, spec_value FROM product_spec WHERE product_id = ?";
-        try(Connection c = getConnection();
+        try(Connection c = DBConfig.getConnection();
             PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setInt(1, productId);
