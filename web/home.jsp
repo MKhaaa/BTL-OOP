@@ -130,30 +130,6 @@
 		border: 3px solid #3b82f6;
 	    }
 
-	    /*Search*/
-/*	    .search {
-
-	    }
-	    .search input {
-		width: 400px;
-		padding: 8px 15px;
-		border-radius: 15px;
-		 outline: none; 
-		border: 1px solid #000;
-		font-size: 18px;
-	    }
-	    .search button {
-		padding: 10px 10px;
-		border-radius: 10px;
-		font-weight: 600;
-		border: none;
-		background-color: #3b82f6;
-		color: #fff;
-		font-size: 18px;
-		cursor: pointer;
-	    }*/
-
-
 	    /* Product grid */
 	    .product-grid {
 		display: grid;
@@ -325,11 +301,6 @@
 			</c:otherwise>
 		    </c:choose>
 		</div>
-
-<!--		<form action="./home" class="search" method="post">
-		    <input class="name" type="text" placeholder="Tìm kiếm sản phẩm">
-		    <button>Tìm kiếm</button>
-		</form>-->
 
 		<section class="product-grid">
 		    <c:forEach var="p" items="${products}">

@@ -39,13 +39,10 @@ public class ProcessHomePage extends HttpServlet {
 	    throws ServletException, IOException {
 	response.setContentType("text/html;charset=UTF-8");
 	
-
-//	String key = request.getParameter("key");
 	String sortField = request.getParameter("sortField");
 	String sortOrder = request.getParameter("sortOrder");
 	String brandId = request.getParameter("brand");
 	String curPage = request.getParameter("page");
-//	System.out.println(key);
 	int pageSize = 8;
 	int page;
 	if(curPage == null){
