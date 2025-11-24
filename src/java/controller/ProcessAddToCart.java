@@ -1,7 +1,6 @@
 package controller;
 
-import model.Cart;
-import model.Product;
+import model.CartItem;
 import model.User;
 import dao.ProductDAO;
 import dao.CartDAO;
@@ -30,45 +29,52 @@ public class ProcessAddToCart extends HttpServlet {
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
 
-        // 1️⃣ Nếu chưa đăng nhập → về login
-        if (currentUser == null) {
-//            response.sendRedirect("login.jsp");
+        // Lấy product_id ngay từ đầu
+        String productIdParam = request.getParameter("product_id");
+        if (productIdParam == null) {
+            response.sendRedirect("index.jsp");
+            return;
+        }
 
-	    //Đăng nhập thành công thì quay trở lại trang Product Detail vừa yêu cầu đăng nhập
-	    int productId = Integer.parseInt(request.getParameter("product_id"));
-	    response.sendRedirect("./login?returnUrl=./product-detail?id=" + productId);
+        int productId = Integer.parseInt(productIdParam);
+
+        // 1. Chưa đăng nhập → điều hướng login + returnUrl
+        if (currentUser == null) {
+            String returnUrl = "./product-detail?id=" + productId;
+            response.sendRedirect("./login?returnUrl=" + returnUrl);
             return;
         }
 
         int userId = currentUser.getId();
-        int productId = Integer.parseInt(request.getParameter("product_id"));
 
-        // Lấy sản phẩm từ DB
+        // 2. Kiểm tra sản phẩm có tồn tại không
         if (productDAO.getProductById(productId) == null) {
             response.sendRedirect("index.jsp");
             return;
         }
 
-        // 2️⃣ Kiểm tra sản phẩm đã có trong giỏ hàng DB chưa
-        if (cartDAO.getCartItem(userId, productId) == null) {
-            // Chưa có → thêm mới với số lượng 1
+        // 3. Lấy item trong giỏ hàng 1 lần duy nhất
+        CartItem item = cartDAO.getCartItem(userId, productId);
+
+        if (item == null) {
+            // Chưa có: thêm mới
             cartDAO.insertItem(userId, productId, 1);
         } else {
-            // Đã có → tăng số lượng lên 1
-            int currentQuantity = cartDAO.getCartItem(userId, productId).getQuantity();
-            cartDAO.updateQuantity(userId, productId, currentQuantity + 1);
+            // Đã có: cập nhật quantity
+            cartDAO.updateQuantity(userId, productId, item.getQuantity() + 1);
         }
 
-        // 3️⃣ Cập nhật session cart ngay lập tức
+        // 4. Cập nhật session giỏ hàng
         session.setAttribute("cart", cartDAO.getCartByUserId(userId));
 
-        // 4️⃣ Redirect về trang chi tiết sản phẩm
+        // 5. Quay lại trang chi tiết
         response.sendRedirect("product-detail?id=" + productId + "&added=true");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Không cho GET vào route này
         response.sendRedirect("index.jsp");
     }
 }

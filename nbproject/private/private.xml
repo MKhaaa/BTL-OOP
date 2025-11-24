@@ -3,22 +3,31 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/header.jsp</file>
             <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/dao/CartDAO.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/home.jsp</file>
             <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/index.html</file>
-            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/model/CartItem.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/product-detail.jsp</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/dao/BrandDAO.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/model/Product.java</file>
             <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/logout.jsp</file>
-            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessCart.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessResetPassword.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessHomePage.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/dao/EmailDAO.java</file>
             <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessLogOut.java</file>
             <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessProductDetail.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessRegister.java</file>
             <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/login.jsp</file>
             <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/dao/ProductDAO.java</file>
             <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessAddToCart.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/header.jsp</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/home.jsp</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/forgot-password.jsp</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/dao/CommentDAO.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/model/CartItem.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/web/product-detail.jsp</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessCart.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessResetPassword.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/dao/UserDAO.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/model/Brand.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/dao/DBConfig.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessHomePage.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessRegister.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/utils/PriceUtil.java</file>
             <file>file:/D:/Documents/NetBeansProjects/BTL-OOP/src/java/controller/ProcessLogIn.java</file>
         </group>
     </open-files>
