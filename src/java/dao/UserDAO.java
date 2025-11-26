@@ -52,8 +52,8 @@ public class UserDAO {
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
-		user.setFirstName(rs.getString("first_name"));
-		user.setLastName(rs.getString("last_name"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
                 return user;
             }
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class UserDAO {
         return null;
     }
 
-    // Thêm user mới (password nên hash trước khi truyền vào user)
+    // Thêm user mới (password hash trước khi truyền vào user)
     public void addUser(User user) {
         String sql = "INSERT INTO users(username, password, email, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConfig.getConnection();
@@ -106,7 +106,9 @@ public class UserDAO {
 
     // Lưu yêu cầu reset password vào bảng password_resets
     public void createResetRequest(int userId, String token, Timestamp expiry) {
-        String sql = "INSERT INTO password_resets(user_id, token, expiry) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO password_resets(user_id, token, expiry) " +
+                "VALUES (?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE token = VALUES(token), expiry = VALUES(expiry)";
         try (Connection conn = DBConfig.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
@@ -120,7 +122,7 @@ public class UserDAO {
 
     // Tìm user bằng token trong bảng password_resets
     public User findUserByResetToken(String token) {
-        String sql = "SELECT u.id, u.username, u.password, u.email " +
+        String sql = "SELECT pr.user_id, pr.expiry, u.id, u.username, u.password, u.email " +
                 "FROM password_resets pr " +
                 "JOIN users u ON pr.user_id = u.id " +
                 "WHERE pr.token = ?";
@@ -131,6 +133,16 @@ public class UserDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+                Timestamp expiry = rs.getTimestamp("expiry");
+                int userId = rs.getInt("user_id");
+
+                // Nếu token hết hạn → xóa hẳn
+                if (expiry.before(new Timestamp(System.currentTimeMillis()))) {
+                    deleteResetToken(userId);
+                    return null;
+                }
+
+                // Token hợp lệ → trả User
                 User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
